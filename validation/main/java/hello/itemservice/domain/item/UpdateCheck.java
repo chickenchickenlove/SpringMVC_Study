@@ -1,6 +1,6 @@
 package hello.itemservice.domain.item;
 
-// 수정 그룹 표시
+// 그룹 분리
 
 public interface UpdateCheck {
 }

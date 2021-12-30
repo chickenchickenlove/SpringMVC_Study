@@ -42,54 +42,43 @@ public class ValidationItemControllerV1 {
         return "validation/v1/addForm";
     }
 
-
-
     @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item,
-                          RedirectAttributes redirectAttributes,
-                          Model model) {
+    public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes, Model model) {
 
-        // 모델에 무슨 오류가 있는지 담아주는 객체가 필요함
-        // 검증 오류 결과를 보관
         Map<String, String> errors = new HashMap<>();
 
-        // 검증 로직
-        // StringUtils ==> 스프링꺼 써야함.
-        // itemName에 글자가 없으면
-        if(!StringUtils.hasText(item.getItemName())){
+
+        // 필드 검증
+        if (!StringUtils.hasText(item.getItemName())) {
             errors.put("itemName", "상품 이름은 필수입니다.");
         }
 
-        if(item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000){
-            errors.put("price", "가격은 1,000 ~ 1,000,000만 가능합니다.");
+        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
+            errors.put("price", "가격은 1,000원 이상, 1,000,000원 이하여야합니다.");
         }
 
-        if(item.getQuantity() == null || item.getQuantity() >= 9999){
-            errors.put("quantity", "수량은 최대 9,999까지 허용합니다.");
+        if (item.getQuantity() == null || item.getQuantity() > 9999) {
+            errors.put("quantity", "수량은 최대 9999개입니다.");
         }
 
-        // 특정 필드가 아닌 복합 룰 검증
 
+        // 글로벌 검증.
         if (item.getPrice() != null && item.getQuantity() != null) {
             int resultPrice = item.getPrice() * item.getQuantity();
             if (resultPrice < 10000) {
-                // 특정 필드랑 비교할 수 없다.
-                errors.put("globalError", "가격 * 수량의 합은 10,000 이상이어야 합니다. 현재 값 = " + resultPrice);
+                errors.put("globalError", "가격 * 수량은 10,000 이상이어야 합니다. 현재 값 = " + resultPrice);
             }
         }
 
-        // 검증 실패하면 다시 입력 폼으로
-        // 부정의 부정 = 긍정. 부정의 부정으로 하면 코딩 시 읽기가 어렵다.
-        // 검증의 실패하면 View 템플릿으로 보내버린다.
-        if (!errors.isEmpty()) {
+
+        if(!errors.isEmpty()){
             log.info("errors = {}", errors);
             model.addAttribute("errors", errors);
             return "validation/v1/addForm";
         }
 
 
-
-        // 검증에 성공할 경우.
+        // 성공 로직
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);

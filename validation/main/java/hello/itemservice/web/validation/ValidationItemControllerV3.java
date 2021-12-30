@@ -17,6 +17,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.naming.Binding;
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -26,6 +28,16 @@ import java.util.List;
 public class ValidationItemControllerV3 {
 
     private final ItemRepository itemRepository;
+    private final ItemValidatorV2 itemValidatorV2;
+
+
+    @InitBinder
+    public void init_(WebDataBinder dataBinder) {
+        dataBinder.addValidators(itemValidatorV2);
+
+    }
+
+
 
     @GetMapping
     public String items(Model model) {
@@ -47,32 +59,37 @@ public class ValidationItemControllerV3 {
         return "validation/v3/addForm";
     }
 
+//    @PostMapping("/add")
+    public String addItemV1(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
+            return "validation/v3/addForm";
+        }
+
+        // 성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v3/items/{itemId}";
+    }
 
 //    @PostMapping("/add")
-    public String addItem(@Validated @ModelAttribute Item item,
-                            BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes,
-                            Model model) {
+    public String addItemV2(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
-        // 객체 검증은 자바 코드로 하는 것이 더 낫다.
-        // 자바 코드로 하면 다른 곳에서 필요한 리소스를 끌어와서 더 할 수 있기 때문이다.
-
-
-        if (item.getPrice() != null && item.getQuantity() != null) {
-            int resultPrice = item.getPrice() * item.getQuantity();
-            if (resultPrice < 10000) {
+        if (item.getQuantity() != null && item.getPrice() != null){
+            int resultPrice = item.getQuantity() * item.getPrice();
+            if(resultPrice < 10000){
                 bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
             }
         }
 
-
-        //검증 실패하면 입력폼으로 돌아간다.
-        if (bindingResult.hasErrors()){
-            log.info("errors={} ", bindingResult);
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
             return "validation/v3/addForm";
-
         }
 
+        // 성공 로직
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
@@ -81,39 +98,19 @@ public class ValidationItemControllerV3 {
 
 
     @PostMapping("/add")
-    public String addItem2(@Validated(value = SaveCheck.class) @ModelAttribute Item item,
-                          BindingResult bindingResult,
-                          RedirectAttributes redirectAttributes,
-                          Model model) {
+    public String addItemV3(@Validated(SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
-        // 객체 검증은 자바 코드로 하는 것이 더 낫다.
-        // 자바 코드로 하면 다른 곳에서 필요한 리소스를 끌어와서 더 할 수 있기 때문이다.
-
-
-        if (item.getPrice() != null && item.getQuantity() != null) {
-            int resultPrice = item.getPrice() * item.getQuantity();
-            if (resultPrice < 10000) {
-                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
-            }
-        }
-
-
-        //검증 실패하면 입력폼으로 돌아간다.
-        if (bindingResult.hasErrors()){
-            log.info("errors={} ", bindingResult);
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
             return "validation/v3/addForm";
-
         }
 
+        // 성공 로직
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/validation/v3/items/{itemId}";
     }
-
-
-
-
 
 
     @GetMapping("/{itemId}/edit")
@@ -123,44 +120,19 @@ public class ValidationItemControllerV3 {
         return "validation/v3/editForm";
     }
 
+
 //    @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @Validated @ModelAttribute Item item, BindingResult bindingResult) {
-
-        // 복합룰 검증
-        if (item.getPrice() != null && item.getQuantity() != null) {
-            int resultPrice = item.getPrice() * item.getQuantity();
-            if (resultPrice < 10000) {
-                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
-            }
-        }
-
-
-        // edit에서 editForm으로 넘어왔다
-        // 문제가 생기면 다시 editForm으로 넘어가면 된다.
-        if (bindingResult.hasErrors()){
-            return "validation/v3/editForm";
-        }
-
-
+    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
         itemRepository.update(itemId, item);
         return "redirect:/validation/v3/items/{itemId}";
     }
 
     @PostMapping("/{itemId}/edit")
-    public String editV2(@PathVariable Long itemId, @Validated(value = UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
+    public String editV2(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
 
-        // 복합룰 검증
-        if (item.getPrice() != null && item.getQuantity() != null) {
-            int resultPrice = item.getPrice() * item.getQuantity();
-            if (resultPrice < 10000) {
-                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
-            }
-        }
-
-
-        // edit에서 editForm으로 넘어왔다
-        // 문제가 생기면 다시 editForm으로 넘어가면 된다.
         if (bindingResult.hasErrors()){
+            log.info("bindingResult = {}", bindingResult);
+
             return "validation/v3/editForm";
         }
 
@@ -168,6 +140,9 @@ public class ValidationItemControllerV3 {
         itemRepository.update(itemId, item);
         return "redirect:/validation/v3/items/{itemId}";
     }
+
+
+
 
 }
 

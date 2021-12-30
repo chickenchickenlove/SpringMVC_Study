@@ -1,5 +1,6 @@
 package hello.itemservice.domain.item;
 
-// 저장 그룹 표시
+// 그룹 분리
+
 public interface SaveCheck {
 }
