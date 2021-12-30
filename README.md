@@ -14,3 +14,6 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 
 21.12.30 
 - Servlet Http Session을 활용한 로그인 처리 (강의)
+- Bean Validation : EditForm.html의 Thymeleaf 수정. (Validation 결과 적용)
+- Bean Validation : EditForm에 Global Validator + Local Validator 적용.
+- Bean Validation : Groups를 적용하여 여러 경계 조건을 여러 Controller에 적용함
