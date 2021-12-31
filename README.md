@@ -23,3 +23,5 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (수강) Servlet Http Session을 활용한 코드 리팩토링
 - (수강) Session 정보를 읽어오고 이를 통한 TimeOut 설정으로 로그인 보안 개선 방법
 - (수강) 서블릿 필터, 서블릿 필터를 이용한 로깅, 서블릿 필터를 이용한 인증
+- (코드) Bean Validation Form 객체를 도입해 Groups를 사용하지 않고 여러 경계 조건을 Valdiation.
+- (코드) HttpMessageConverter를 활용한 Validated 처리.
