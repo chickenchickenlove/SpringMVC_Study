@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -45,44 +46,34 @@ public class ValidationItemControllerV4 {
         return "validation/v4/addForm";
     }
 
-    // 이름을 입력을 안 할 경우 itemSaveForm으로 모델에 들어간다
-    // 따라서, 모델에는 뷰템플릿에 호환해서 써야하기 때문에 item으로 이름을 정해줘야한다.
-    // @ModelAttribute ItemSaveForm form하면..
-    // model.addAttribute("itemSaveForm", form")으로 담긴다.
-    @PostMapping("/add")
-    public String addItem(@Validated @ModelAttribute(name = "item") ItemSaveForm form,
-                          BindingResult bindingResult,
-                          RedirectAttributes redirectAttributes,
-                          Model model) {
 
-        if (form.getPrice() != null && form.getQuantity() != null) {
-            int resultPrice = form.getPrice() * form.getQuantity();
-            if (resultPrice < 10000) {
+    @PostMapping("/add")
+    public String addItem(@Validated @ModelAttribute(name = "item") ItemSaveForm itemSaveForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+
+        if(itemSaveForm.getQuantity() != null && itemSaveForm.getPrice() != null){
+            int resultPrice = itemSaveForm.getQuantity() * itemSaveForm.getPrice();
+            if(resultPrice < 10000){
                 bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
             }
         }
 
-        //검증 실패하면 입력폼으로 돌아간다.
-        if (bindingResult.hasErrors()){
-            log.info("errors={} ", bindingResult);
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
             return "validation/v4/addForm";
-
         }
 
+        Item item = new Item();
+        item.setItemName(itemSaveForm.getItemName());
+        item.setPrice(itemSaveForm.getPrice());
+        item.setQuantity(itemSaveForm.getQuantity());
 
         // 성공 로직
-        // getter + setter로 생성자에서 바로 처리해버리는게 좋다.
-        Item item = new Item();
-        item.setItemName(form.getItemName());
-        item.setPrice(form.getPrice());
-        item.setQuantity(form.getQuantity());
-
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/validation/v4/items/{itemId}";
     }
-
 
 
 
@@ -95,33 +86,40 @@ public class ValidationItemControllerV4 {
         return "validation/v4/editForm";
     }
 
-    @PostMapping("/{itemId}/edit")
-    public String editV(@PathVariable Long itemId, @Validated @ModelAttribute(name = "item") ItemUpdateForm form, BindingResult bindingResult) {
 
-        // 복합룰 검증
-        if (form.getPrice() != null && form.getQuantity() != null) {
-            int resultPrice = form.getPrice() * form.getQuantity();
-            if (resultPrice < 10000) {
+    @PostMapping("/{itemId}/edit")
+    public String edit(@PathVariable Long itemId, @Validated @ModelAttribute(name = "item") ItemUpdateForm itemUpdateForm, BindingResult bindingResult,
+                         Model model) {
+
+        if(itemUpdateForm.getQuantity() != null && itemUpdateForm.getPrice() != null){
+            int resultPrice = itemUpdateForm.getQuantity() * itemUpdateForm.getPrice();
+            if(resultPrice < 10000){
                 bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
             }
         }
 
 
-        // edit에서 editForm으로 넘어왔다
-        // 문제가 생기면 다시 editForm으로 넘어가면 된다.
         if (bindingResult.hasErrors()){
+            log.info("bindingResult = {}", bindingResult);
+
             return "validation/v4/editForm";
         }
 
 
-        Item itemParam = new Item();
-        itemParam.setItemName(form.getItemName());
-        itemParam.setPrice(form.getPrice());
-        itemParam.setQuantity(form.getQuantity());
+        Item item = new Item();
+        item.setItemName(itemUpdateForm.getItemName());
+        item.setPrice(itemUpdateForm.getPrice());
+        item.setQuantity(itemUpdateForm.getQuantity());
 
-        itemRepository.update(itemId, itemParam);
+
+        model.addAttribute("item", item);
+
+        itemRepository.update(itemId, item);
         return "redirect:/validation/v4/items/{itemId}";
     }
+
+
+
 
 }
 

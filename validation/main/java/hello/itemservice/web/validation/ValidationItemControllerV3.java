@@ -4,6 +4,8 @@ import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
 import hello.itemservice.domain.item.SaveCheck;
 import hello.itemservice.domain.item.UpdateCheck;
+import hello.itemservice.web.validation.form.ItemSaveForm;
+import hello.itemservice.web.validation.form.ItemUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -28,14 +30,14 @@ import java.util.List;
 public class ValidationItemControllerV3 {
 
     private final ItemRepository itemRepository;
-    private final ItemValidatorV2 itemValidatorV2;
-
-
-    @InitBinder
-    public void init_(WebDataBinder dataBinder) {
-        dataBinder.addValidators(itemValidatorV2);
-
-    }
+//    private final ItemValidatorV2 itemValidatorV2;
+//
+//
+//    @InitBinder
+//    public void init_(WebDataBinder dataBinder) {
+//        dataBinder.addValidators(itemValidatorV2);
+//
+//    }
 
 
 
@@ -97,7 +99,7 @@ public class ValidationItemControllerV3 {
     }
 
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV3(@Validated(SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
         if(bindingResult.hasErrors()){
@@ -111,6 +113,36 @@ public class ValidationItemControllerV3 {
         redirectAttributes.addAttribute("status", true);
         return "redirect:/validation/v3/items/{itemId}";
     }
+
+    @PostMapping("/add")
+    public String addItemV4(@Valid @ModelAttribute ItemSaveForm itemSaveForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+        log.info("bindingResult = {}", bindingResult);
+
+
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
+            return "validation/v3/addForm";
+        }
+
+        Item item = new Item();
+        item.setItemName(itemSaveForm.getItemName());
+        item.setPrice(itemSaveForm.getPrice());
+        item.setQuantity(itemSaveForm.getQuantity());
+
+
+        model.addAttribute("item", item);
+
+
+        // 성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v3/items/{itemId}";
+    }
+
+
+
 
 
     @GetMapping("/{itemId}/edit")
@@ -127,7 +159,7 @@ public class ValidationItemControllerV3 {
         return "redirect:/validation/v3/items/{itemId}";
     }
 
-    @PostMapping("/{itemId}/edit")
+//    @PostMapping("/{itemId}/edit")
     public String editV2(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()){
@@ -136,6 +168,30 @@ public class ValidationItemControllerV3 {
             return "validation/v3/editForm";
         }
 
+
+        itemRepository.update(itemId, item);
+        return "redirect:/validation/v3/items/{itemId}";
+    }
+
+
+    @PostMapping("/{itemId}/edit")
+    public String editV3(@PathVariable Long itemId, @Valid @ModelAttribute ItemUpdateForm itemUpdateForm, BindingResult bindingResult,
+                         Model model) {
+
+        if (bindingResult.hasErrors()){
+            log.info("bindingResult = {}", bindingResult);
+
+            return "validation/v3/editForm";
+        }
+
+
+        Item item = new Item();
+        item.setItemName(itemUpdateForm.getItemName());
+        item.setPrice(itemUpdateForm.getPrice());
+        item.setQuantity(itemUpdateForm.getQuantity());
+
+
+        model.addAttribute("item", item);
 
         itemRepository.update(itemId, item);
         return "redirect:/validation/v3/items/{itemId}";
