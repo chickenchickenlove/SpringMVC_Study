@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -96,7 +97,7 @@ public class LoginController {
     }
 
 
-    @PostMapping("/login")
+//    @PostMapping("/login")
     public String loginV3(@Validated @ModelAttribute LoginForm form, BindingResult bindingResult, Model model,
                           HttpServletRequest request) {
 
@@ -130,6 +131,46 @@ public class LoginController {
 
         return "redirect:/";
     }
+
+
+
+    @PostMapping("/login")
+    public String loginV4(@Validated @ModelAttribute LoginForm form, BindingResult bindingResult, Model model,
+                          HttpServletRequest request, @RequestParam(name = "redirectURL", defaultValue = "/") String redirectURL) {
+
+        if(bindingResult.hasErrors()){
+            log.info("에러 발생 : {} ", bindingResult);
+            return "login/loginForm";
+        }
+
+        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+        log.info("login? {}",loginMember);
+
+
+        if (loginMember == null) {
+            log.info("에러 발생 : {} ", bindingResult);
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "login/loginForm";
+        }
+
+        //로그인 성공 처리 TODO
+
+        // 세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성한다.
+        // 서블릿이 제공하는 HTTP 세션 기술 사용.
+        HttpSession session = request.getSession();
+        log.info("session = {}", session.getId());
+
+
+        // 세션에 로그인 정보를 저장한다. 세션은 JSESSIONID라는 값을 준다
+        // 이 세션 정보에 "LOGINmEMBER"라는 KEY로 객체를 저장한다.
+        // 하나의 세션에 여러 개의 값을 저장한다.
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        log.info("redirect URL = {}", redirectURL);
+        return "redirect:" + redirectURL;
+    }
+
+
 
 
 
