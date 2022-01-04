@@ -53,3 +53,6 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (코드) 서블릿 필터로 로거, 로그인 체크 기능 구현 복습
 - (코드) 스프링 인터셉터로 로거, 로그인 체크 기능 구현 복습
 - (코드) Argument Resolver로 직접 구현한 인증 체크 복습
+- (코드) ErrorPage를 통한 User 지정 Error 페이지 구현
+- (코드) 서블릿 필터, 인터셉터에서 Error 발생 시 Skip 구현
+- (코드) BasicErrorController를 활용한 Error 페이지 사용
