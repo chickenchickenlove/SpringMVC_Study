@@ -56,3 +56,10 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (코드) ErrorPage를 통한 User 지정 Error 페이지 구현
 - (코드) 서블릿 필터, 인터셉터에서 Error 발생 시 Skip 구현
 - (코드) BasicErrorController를 활용한 Error 페이지 사용
+
+22.01.05
+- (강의) 스프링 부트 기본 오류 API 처리 수강
+- (강의) HandlerExceptionResolver에 대한 개념 및 활용 수강
+- (강의) 스프링이 제공하는 ExceptionResolver를 직접 구현하여 오류 처리하는 방법 수강
+- (강의) @ExceptionHandler를 활용한 오류 처리 수강
+- (강의) @ControllerAdvice로 관심사 분리를 통해 코드 리팩토링 수강
