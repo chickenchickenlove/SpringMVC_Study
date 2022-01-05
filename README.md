@@ -63,3 +63,11 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (강의) 스프링이 제공하는 ExceptionResolver를 직접 구현하여 오류 처리하는 방법 수강
 - (강의) @ExceptionHandler를 활용한 오류 처리 수강
 - (강의) @ControllerAdvice로 관심사 분리를 통해 코드 리팩토링 수강
+- (강의) Spring Converter 개념 수강
+- (강의) Spring Converter를 Conversion Service에 등록해서 사용하는 방법
+- (강의) Converter를 SpringBoot를 활용해서 적용하기
+- (강의) ViewTemplate에 Converter 적용하기
+- (강의) Formatter 개념 수강
+- (강의) Formatter를 지원하는 컨버전 서비스 사용해보기
+- (강의) Formatter를 활용한 테스트 코드 테스트
+- (강의) Formatter 적용 및 SpringBoot를 활용해서 적용하기
