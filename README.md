@@ -82,3 +82,11 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (코드) Spring MVC의 BasicErrorController를 이용한 Error Page 구현
 - (코드) Exception 상황 발생 시, Servlet Filter Skip 구현
 - (코드) Exception 상황 발생 시, Spring Interceptor Skip 
+- (코드) HTTP API 예외 처리에 대한 개론 정리
+- (코드) Servlet의 ErrorPageController + produce Type을 통한 JSON HTTP API 예외 구현
+- (코드) Spring의 HandlerException Resolver를 이용한 JSON HTTP API 예외 구현
+- (코드) Spring의 HandlerException Resolver를 이용하여 Exception 삭제 후, 정상 처리하기
+- (코드) Spring MVC의 ResponseExceptionResolver를 이용한 Exception Catch 및 처리 구현
+- (코드) Spring MVC의 DefaultExceptionREsolver를 이용한 Type Mismatch Exception Catch 및 처리 구현
+- (코드) Spring MVC의 ExceptionHandlerResolver를 활용한 유연한 Exception 처리 
+- (코드) ControllerAdvice를 활용한 ExceptionHandlerResolver와 다른 Controller의 분리 코드 리팩토링 처리
