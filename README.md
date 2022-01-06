@@ -74,3 +74,11 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (강의) 서블릿 기술을 이용한 파일 업로드 구현
 - (강의) 스프링 기술을 이용한 파일 업로드 구현
 - (강의) 스프링 기술을 이용한 파일 업로드, 다운로드의 웹개발 구현
+
+22.01.06
+- (정리) Servlet Error Page, Spring이 제공하는 Error Page 정리 (https://ojt90902.tistory.com/676)
+- (코드) Error 유발 컨트롤러 구현해보기
+- (코드) Servlet의 WebCustomizer를 이용한 ErrorPage 및 Error Controller 구현
+- (코드) Spring MVC의 BasicErrorController를 이용한 Error Page 구현
+- (코드) Exception 상황 발생 시, Servlet Filter Skip 구현
+- (코드) Exception 상황 발생 시, Spring Interceptor Skip 
