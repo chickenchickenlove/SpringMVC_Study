@@ -82,6 +82,7 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (코드) Spring MVC의 BasicErrorController를 이용한 Error Page 구현
 - (코드) Exception 상황 발생 시, Servlet Filter Skip 구현
 - (코드) Exception 상황 발생 시, Spring Interceptor Skip 
+- (정리) HTTp APi 예외 처리 관련 개념 및 코드 정리(https://ojt90902.tistory.com/677)
 - (코드) HTTP API 예외 처리에 대한 개론 정리
 - (코드) Servlet의 ErrorPageController + produce Type을 통한 JSON HTTP API 예외 구현
 - (코드) Spring의 HandlerException Resolver를 이용한 JSON HTTP API 예외 구현
