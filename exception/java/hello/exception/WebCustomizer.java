@@ -19,7 +19,6 @@ public class WebCustomizer implements WebServerFactoryCustomizer<ConfigurableWeb
         ErrorPage errorPage400 = new ErrorPage(HttpStatus.BAD_REQUEST, "/error-page/400");
         ErrorPage errorPageEx = new ErrorPage(RuntimeException.class, "/error-page/500");
 
-
         factory.addErrorPages(errorPage400,errorPage500,errorPage404,errorPageEx);
     }
 
