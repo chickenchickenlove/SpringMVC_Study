@@ -91,3 +91,13 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (코드) Spring MVC의 DefaultExceptionREsolver를 이용한 Type Mismatch Exception Catch 및 처리 구현
 - (코드) Spring MVC의 ExceptionHandlerResolver를 활용한 유연한 Exception 처리 
 - (코드) ControllerAdvice를 활용한 ExceptionHandlerResolver와 다른 Controller의 분리 코드 리팩토링 처리
+
+
+22.01.07
+- (정리) Converter, Formatter의 개념 및 사용 방법 정리 (https://ojt90902.tistory.com/679)
+- (코드) Primitive Type Converter 구현 및 적용
+- (코드) Primitive ↔ User Object Type Converter 구현 및 적용 + TEST 코드 작성
+- (코드) User Define Converter Spring MVC 등록 및 사용. 타임리프 th:field와 함께 적용 
+- (코드) User Define Formmater 구현 + TEST 코드 작성
+- (코드) User Define Formater Spring MVC 등록 및 사용. 타임리프 th:field와 함께 적용 
+- (코드) 어노테이션 기반 @NumberFormat, @DateTimeFormat 사용. 타임리프 th:field와 함께 적용
