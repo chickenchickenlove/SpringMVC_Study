@@ -25,11 +25,13 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (수강) 서블릿 필터, 서블릿 필터를 이용한 로깅, 서블릿 필터를 이용한 인증
 - (코드) Bean Validation Form 객체를 도입해 Groups를 사용하지 않고 여러 경계 조건을 Valdiation.
 - (코드) HttpMessageConverter를 활용한 Validated 처리.
+- (코드) BindingResult를 이용한 Validation 정리 (https://ojt90902.tistory.com/672)
 
 22.01.01
 - (코드) BindingResult + new FieldError, ObjectError를 활용한 에러 처리.
 - (코드) FieldError, ObjectError를 활용했을 때 Thymeleaf로 동적으로 에러 메세지 처리하기.
 - (코드) BindinResult + rejectValue , reject의 MessageCodesResolver를 활용한 동적 메세지 출력하기.
+- (정리) Bean Validation 관련 정리 (https://ojt90902.tistory.com/673)
 
 22.01.02
 - (수강) 서블릿 필터를 활용한 인증 체크, 요청 로그
@@ -37,6 +39,7 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (수강) ArgumentResolver 직접 구현한 인증 체크
 - (수강) 서블릿 예외처리 - 오류 화면 제공, 오류 페이지 작동 원리, 필터, 인터셉터
 - (수강) 스프링부트를 활용한 오류페이지 제공
+- (정리) 로그인 기능 구현 관련 정리 (https://ojt90902.tistory.com/674)
 - (코드) 회원 가입 기능 구현
 - (코드) 직접 생성한 쿠키를 통한 로그인 기능 및 유지 구현
 - (코드) UUID를 이용한 쿠키 생성하고 이를 통한 로그인 기능 및 유지 구현
