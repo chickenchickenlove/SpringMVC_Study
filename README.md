@@ -104,3 +104,10 @@ Spring MVC를 공부하며 복습한 내용을 커밋하고 있습니다.
 - (코드) User Define Formmater 구현 + TEST 코드 작성
 - (코드) User Define Formater Spring MVC 등록 및 사용. 타임리프 th:field와 함께 적용 
 - (코드) 어노테이션 기반 @NumberFormat, @DateTimeFormat 사용. 타임리프 th:field와 함께 적용
+
+22.01.08
+- (정리) Spring을 이용한 파일, 이미지 업로드 / 다운로드 (https://ojt90902.tistory.com/681)
+- (코드) Servlet의 HttpServeltRequest를 이용한 파일 업로드
+- (코드) Spring의 MultipleFile을 이용한 파일 업로드
+- (코드) 다중 이미지, 싱글 파일 업로드 구현
+- (코드) 다중 이미지 다운로드(화면 렌더링) + 싱글 파일 다운로드 구현 
